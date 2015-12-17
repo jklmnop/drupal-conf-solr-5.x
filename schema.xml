@@ -420,22 +420,22 @@
 
     <!-- Apache Solr Search Integration specific fields -->
     <!-- entity_id is the numeric object ID, e.g. Node ID, File ID -->
-    <field name="entity_id"  type="long" indexed="true" stored="true" />
+    <field name="nid"  type="long" indexed="true" stored="true" />
     <!-- entity_type is 'node', 'file', 'user', or some other Drupal object type -->
-    <field name="entity_type" type="string" indexed="true" stored="true" />
+    <field name="entity" type="string" indexed="true" stored="true" />
     <!-- bundle is a node type, or as appropriate for other entity types -->
-    <field name="bundle" type="string" indexed="true" stored="true"/>
-    <field name="bundle_name" type="string" indexed="true" stored="true"/>
+    <field name="type" type="string" indexed="true" stored="true"/>
+    <field name="type_name" type="string" indexed="true" stored="true"/>
     <field name="site" type="string" indexed="true" stored="true"/>
     <field name="hash" type="string" indexed="true" stored="true"/>
     <field name="url" type="string" indexed="true" stored="true"/>
     <!-- label is the default field for a human-readable string for this entity (e.g. the title of a node) -->
-    <field name="label" type="text" indexed="true" stored="true" termVectors="true" omitNorms="true"/>
+    <field name="title" type="text" indexed="true" stored="true" termVectors="true" omitNorms="true"/>
     <!-- The string version of the title is used for sorting -->
-    <copyField source="label" dest="sort_label"/>
+    <copyField source="title" dest="sort_title"/>
 
     <!-- content is the default field for full text search - dump crap here -->
-    <field name="content" type="text" indexed="true" stored="true" termVectors="true"/>
+    <field name="body" type="text" indexed="true" stored="true" termVectors="true"/>
     <field name="teaser" type="text" indexed="false" stored="true"/>
     <field name="path" type="string" indexed="true" stored="true"/>
     <field name="path_alias" type="text" indexed="true" stored="true" termVectors="true" omitNorms="true"/>
@@ -458,8 +458,8 @@
     <!-- copyField commands copy one field to another at the time a document
          is added to the index.  It's used either to index the same field differently,
          or to add multiple fields to the same field for easier/faster searching.  -->
-    <copyField source="label" dest="spell"/>
-    <copyField source="content" dest="spell"/>
+    <copyField source="title" dest="spell"/>
+    <copyField source="body" dest="spell"/>
 
     <copyField source="ts_*" dest="spell"/>
     <copyField source="tm_*" dest="spell"/>
@@ -586,7 +586,7 @@
   <uniqueKey>id</uniqueKey>
 
   <!-- field for the QueryParser to use when an explicit fieldname is absent -->
-  <defaultSearchField>content</defaultSearchField>
+  <defaultSearchField>body</defaultSearchField>
 
   <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
   <solrQueryParser defaultOperator="AND"/>
